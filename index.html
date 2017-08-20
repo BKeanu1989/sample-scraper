@@ -10,10 +10,27 @@
     We are using Node.js <script>document.write(process.versions.node)</script>,
     Chromium <script>document.write(process.versions.chrome)</script>,
     and Electron <script>document.write(process.versions.electron)</script>.
+    <button type="button" name="button" id="new-window">Test me</button>
+
   </body>
 
   <script>
+    const BrowserWindow = require('electron').remote.BrowserWindow;
+    const path = require('path');
+    const newWindowBtn = document.getElementById('new-window');
+
+    newWindowBtn.addEventListener('click', function (event) {
+      console.log('i was clicked');
+      let win = new BrowserWindow({show: false });
+      let pathToFile = path.join(__dirname, 'backgroundWorker.html');
+      win.loadURL(url.format({
+        pathname: path.join(__dirname, 'backgroundWorker.html'),
+        protocol: 'file:',
+        slashes: true
+      }));
+    })
     // You can also require other files to run in this process
+
     require('./renderer.js')
 
   </script>
