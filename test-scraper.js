@@ -115,7 +115,7 @@ var selector = 'meta[name="description"]';
 //   .then((x) => {
 //     nightmare.end();
 //   })
-
+var results = [];
 nightmare
   .goto('https://www.facebook.com/')
   // .then(gotoStatus => {
@@ -139,9 +139,30 @@ nightmare
         .wait(3000)
     }
   })
-  .then(result => console.log('Result:', result))
-  .catch(error => console.log('An error occurred:', error))
-  .then(_ => nightmare.end());
+  .then(() => {
+    console.log('custom loop');
+    console.log(selector);
+        urls.reduce(function(accumulator, url) {
+          return accumulator.then(function(results) {
+            return nightmare.goto(url)
+              .wait('body')
+              .evaluate(function(selector) {
+                return document.querySelector(selector).content;
+              }, selector)
+              .then(function(result){
+                console.log('custom result', result);
+                results.push(result);
+                return results;
+              });
+          });
+        }, Promise.resolve([])).then(function(results){
+            console.dir(results);
+            return nightmare.end()
+        });
+      })
+  // .then(result => console.log('Result:', result))
+  // .catch(error => console.log('An error occurred:', error))
+  // .then(_ => nightmare.end());
 
   // nightmare
   //   .goto('https://www.facebook.com/')
