@@ -23,6 +23,6 @@ function execute(command, callback){
 // });
 
 // call the function
-execute('DEBUG=nightmare babel-node ./test-fb.js', function(output) {
+execute('DEBUG=nightmare babel-node ./test-scraper.js', function(output) {
     console.log(output);
 });

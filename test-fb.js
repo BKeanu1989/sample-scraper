@@ -51,8 +51,8 @@ function load(url, callback){
 }
 
 var urls = [
-  'https://www.facebook.com/JuicyGay/',
-  'https://de-de.facebook.com/HaiytiakaRobbery/',
+  'https://facebook.com/JuicyGay/',
+  'https://facebook.com/HaiytiakaRobbery/',
 ]
 
 async.eachSeries(urls, load, function (err) {
