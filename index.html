@@ -17,17 +17,15 @@
   <script>
     const BrowserWindow = require('electron').remote.BrowserWindow;
     const path = require('path');
-    const newWindowBtn = document.getElementById('new-window');
+
+    const newWindowBtn = document.getElementById('new-window')
 
     newWindowBtn.addEventListener('click', function (event) {
-      console.log('i was clicked');
-      let win = new BrowserWindow({show: false });
-      let pathToFile = path.join(__dirname, 'backgroundWorker.html');
-      win.loadURL(url.format({
-        pathname: path.join(__dirname, 'backgroundWorker.html'),
-        protocol: 'file:',
-        slashes: true
-      }));
+      const modalPath = path.join('file://', __dirname, 'backgroundWorker.html')
+      let win = new BrowserWindow({ width: 400, height: 320 })
+      win.on('close', function () { win = null })
+      win.loadURL(modalPath)
+      win.show()
     })
     // You can also require other files to run in this process
 
