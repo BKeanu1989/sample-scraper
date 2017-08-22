@@ -11,25 +11,53 @@
     Chromium <script>document.write(process.versions.chrome)</script>,
     and Electron <script>document.write(process.versions.electron)</script>.
     <button type="button" name="button" id="new-window">Test me</button>
-
+    <p id="fb-message"></p>
+    <p id="test">test before</p>
   </body>
 
   <script>
     const BrowserWindow = require('electron').remote.BrowserWindow;
+    const ipcRenderer = require('electron').ipcRenderer;
     const path = require('path');
 
-    const newWindowBtn = document.getElementById('new-window')
+    const newWindowBtn = document.getElementById('new-window');
+    const crawlFBMessage = document.getElementById('fb-message');
 
     newWindowBtn.addEventListener('click', function (event) {
+      const windowID = BrowserWindow.getFocusedWindow().id;
       const modalPath = path.join('file://', __dirname, 'backgroundWorker.html')
-      let win = new BrowserWindow({ width: 400, height: 320 })
+      let win = new BrowserWindow({ width: 400, height: 320, show: true })
       win.on('close', function () { win = null })
       win.loadURL(modalPath)
-      win.show()
+      win.webContents.openDevTools();
+
+      // win.webContents.on('did-finish-load', function() {
+      //   win.webContents.send('crawl-fb', windowID);
+      // })
+      win.webContents.on('did-finish-load', function () {
+        const input = 100
+        win.webContents.send('compute-factorial', input, windowID)
+      })
     })
+
+    // ipcRenderer.on('fb-crawled', function(event, input, output) {
+    //   const message = `FB crawled`;
+    //   crawlFBMessage.textContent = message;
+    // })
+    ipcRenderer.on('factorial-computed', function (event, input, output) {
+      const message = `The factorial of ${input} is ${output}`
+      crawlFBMessage.textContent = message
+    })
+
+    ipcRenderer.on('test', function(event) {
+      const testMessage = 'test';
+      crawlFBMessage.textContent = testMessage;
+    })
+
     // You can also require other files to run in this process
 
     require('./renderer.js')
 
+    document.getElementById('test').textContent = 'hmm'
   </script>
 </html>
