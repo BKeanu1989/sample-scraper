@@ -36,7 +36,7 @@
       // })
       win.webContents.on('did-finish-load', function () {
         const input = 100
-        win.webContents.send('compute-factorial', input, windowID)
+        win.webContents.send('crawl-fb', input, windowID)
       })
     })
 
@@ -49,8 +49,8 @@
       crawlFBMessage.textContent = message
     })
 
-    ipcRenderer.on('test', function(event) {
-      const testMessage = 'test';
+    ipcRenderer.on('fb-crawled', function(event) {
+      const testMessage = 'fb-crawled';
       crawlFBMessage.textContent = testMessage;
     })
 

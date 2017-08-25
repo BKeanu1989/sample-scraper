@@ -3,10 +3,11 @@ const util = require('util');
 // const exec = util.promisify(require('child_process').exec); // does not work with electron
 const exec = require('child_process').exec;
 
-function execute(command, callback){
-    exec(command, function(error, stdout, stderr){ callback(stdout); });
+function execute(command, callback) {
+  exec(command, function(error, stdout, stderr) {
+    callback(stdout);
+  });
 };
-
 
 // ipc.on('crawl-fb', function(event, fromWindowId) {
 //   execute('DEBUG=nightmare babel-node ./test-scraper.js', function(output) {
@@ -18,25 +19,26 @@ function execute(command, callback){
 //   window.close();
 // });
 
-ipc.on('compute-factorial', function (event, number, fromWindowId) {
-    execute('DEBUG=nightmare babel-node ./test-scraper.js', function(output) {
-        // console.log(output);
-        console.log('fromWindowId:',fromWindowId);
-        const fromWindow = BrowserWindow.fromId(fromWindowId);
-        console.log(fromWindow);
-        console.log(fromWindow.webContents);
-        console.log(window);
-        fromWindow.webContents.send('test')
-        window.close();
-    });
+ipc.on('crawl-fb', function(event, number, fromWindowId) {
+  execute('DEBUG=nightmare babel-node ./test-scraper.js', function(output) {
+    // console.log(output);
+    console.log('fromWindowId:', fromWindowId);
+    const fromWindow = BrowserWindow.fromId(fromWindowId);
+    console.log(fromWindow);
+    console.log(fromWindow.webContents);
+    console.log(window);
+    fromWindow.webContents.send('fb-crawled');
+    window.close();
+  });
   // const result = factorial(number)
   // const fromWindow = BrowserWindow.fromId(fromWindowId)
   // fromWindow.webContents.send('factorial-computed', number, result)
   // window.close()
 })
 
-function factorial (num) {
-  if (num === 0) return 1
+function factorial(num) {
+  if (num === 0) 
+    return 1
   return num * factorial(num - 1)
 }
 
