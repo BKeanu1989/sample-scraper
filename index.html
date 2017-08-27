@@ -10,7 +10,7 @@
     We are using Node.js <script>document.write(process.versions.node)</script>,
     Chromium <script>document.write(process.versions.chrome)</script>,
     and Electron <script>document.write(process.versions.electron)</script>.
-    <button type="button" name="button" id="new-window">Test me</button>
+    <button type="button" name="button" id="new-window">Crawl FB</button>
     <p id="fb-message"></p>
     <p id="test">test before</p>
   </body>
@@ -50,7 +50,7 @@
     })
 
     ipcRenderer.on('fb-crawled', function(event) {
-      const testMessage = 'fb-crawled';
+      const testMessage = 'FB Crawled';
       crawlFBMessage.textContent = testMessage;
     })
 
@@ -58,6 +58,5 @@
 
     require('./renderer.js')
 
-    document.getElementById('test').textContent = 'hmm'
   </script>
 </html>

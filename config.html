@@ -1,0 +1,34 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Config</title>
+</head>
+<body>
+	<h1>Config</h1>
+</body>
+<template id="single_login">
+	<h2></h2>
+	<input type="text" value="">
+	<input type="password" value="">
+</template>
+<script>
+	var config = require('./config/config.json');
+	var body = document.querySelector('body');
+	Object.keys(config).forEach(function(x) {
+		appendConfig(x);
+		
+	});
+
+	function appendConfig(singleLogin) {
+		var t = document.querySelector('#single_login');
+		var channel = t.content.querySelector('h2');
+		var user = t.content.querySelector('input[type="text"]');
+		var pw = t.content.querySelector('input[type="password"]');
+		user.value = config[singleLogin].username;
+		pw.value = config[singleLogin].password;
+		channel.textContent = singleLogin;
+		var clone = document.importNode(t.content, true);
+		body.appendChild(clone);
+	}
+</script>
+</html>

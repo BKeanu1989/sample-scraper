@@ -38,6 +38,15 @@ var template = [{
     accelerator: 'CmdOrCtrl+A',
     role: 'selectall'
   }]
+},{
+  label: 'Config',
+  submenu: [{
+    label: 'Config',
+    click: function () {
+    openConfigWindow();
+  }
+  }]
+
 }, {
   label: 'TEST',
   submenu: [{
@@ -131,6 +140,14 @@ var template = [{
     click: function () {
       electron.shell.openExternal('http://electron.atom.io')
     }
+  },{
+    label: 'Config',
+    submenu: [{
+      label: 'Facebook',
+      click: function () {
+        openConfigWindow();
+      }
+    }]
   }]
 }]
 
@@ -138,7 +155,7 @@ var template = [{
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 let backGroundWindow;
-
+let configWindow;
 function createMainWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 800, height: 600});
@@ -218,3 +235,14 @@ app.on('activate', function () {
 //   let reopenMenuItem = findReopenMenuItem()
 //   if (reopenMenuItem) reopenMenuItem.enabled = false
 // })
+
+function openConfigWindow() {
+  configWindow = new BrowserWindow({width: 800,height: 600});
+  const windowPath = path.join('file://', __dirname, 'config.html')
+  configWindow.loadURL(windowPath);
+  configWindow.webContents.openDevTools();
+
+  configWindow.on('closed', function() {
+    configWindow = null;
+  })
+}
