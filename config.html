@@ -5,30 +5,73 @@
 </head>
 <body>
 	<h1>Config</h1>
+	<form action="">
+
+	</form>
+	<div class="checkbox_channel">
+		<input type="checkbox" name="facebook" id="facebook">
+		<label for="facebook">Facebook</label>
+	</div>
+	<div class="checkbox_channel">
+		<input type="checkbox" name="twitter" id="twitter">
+		<label for="twitter">Twitter</label>
+	</div>
+	<div class="checkbox_channel">
+		<input type="checkbox" name="instagram" id="instagram">
+		<label for="instagram">Instagram</label>
+	</div>
+
 </body>
 <template id="single_login">
-	<h2></h2>
-	<input type="text" value="">
-	<input type="password" value="">
+	<div class="channel">
+		<h2></h2>
+		<input type="hidden" name="channel" value="">
+		<input type="text" name="username" value="">
+		<input type="password" name="password" value="">
+	</div>
 </template>
 <script>
 	var config = require('./config/config.json');
 	var body = document.querySelector('body');
-	Object.keys(config).forEach(function(x) {
-		appendConfig(x);
-		
+	Object.keys(config).forEach(function(channel) {
+		appendConfig(channel);
+		checkCheckbox(channel);
 	});
 
 	function appendConfig(singleLogin) {
 		var t = document.querySelector('#single_login');
 		var channel = t.content.querySelector('h2');
-		var user = t.content.querySelector('input[type="text"]');
-		var pw = t.content.querySelector('input[type="password"]');
+		var channelInput = t.content.querySelector('input[type="hidden"]');
+		var user = t.content.querySelector('input[name="username"]');
+		var pw = t.content.querySelector('input[name="password"]');
+		channelInput.value = singleLogin;
 		user.value = config[singleLogin].username;
 		pw.value = config[singleLogin].password;
-		channel.textContent = singleLogin;
+		channel.textContent = singleLogin.charAt(0).toUpperCase() + singleLogin.slice(1);;
 		var clone = document.importNode(t.content, true);
 		body.appendChild(clone);
 	}
+
+	function toggleChannelConfig(channel) {
+		var checked = document.querySelector('input[type="checkbox"][name="'+channel+'"]').checked;
+		checked = !checked;
+		console.log(channel);
+		console.log(checked);
+	}
+
+	function checkCheckbox(channel) {
+		var input = document.querySelector('input[type="checkbox"][name="'+channel+'"]');
+		input.checked = true;
+	}
+
+
+ document.querySelectorAll('.checkbox_channel').forEach(function(checkbox) {
+ 	checkbox.addEventListener('change', function() {
+ 		console.log('changed');
+ 		console.log(event);
+ 		toggleChannelConfig(event.target.name);
+ 	});
+ })
+
 </script>
 </html>
