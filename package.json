@@ -4,7 +4,9 @@
   "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
@@ -25,7 +27,8 @@
   "dependencies": {
     "async": "^2.5.0",
     "moment": "^2.18.1",
-    "nightmare": "2.8.1"
+    "nightmare": "2.8.1",
+    "snyk": "^1.316.1"
   },
   "babel": {
     "presets": [
@@ -37,5 +40,6 @@
       ],
       "stage-0"
     ]
-  }
+  },
+  "snyk": true
 }
