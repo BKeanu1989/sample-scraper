@@ -23,9 +23,9 @@
     "babel-preset-stage-0": "6.16.0"
   },
   "dependencies": {
-    "async": "^2.5.0",
+    "async": "^3.0.0",
     "moment": "^2.18.1",
-    "nightmare": "2.8.1"
+    "nightmare": "3.0.1"
   },
   "babel": {
     "presets": [
